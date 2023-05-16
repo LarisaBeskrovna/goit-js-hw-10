@@ -62,7 +62,8 @@ const refs = {
   function renderInfoAboutCountry(countries) {
     const markup = countries
       .map(({ capital, population, languages }) => {
-        const countryLanguage = Object.values(languages);
+        const countryLanguage = Object.values(languages)
+        .join('');
         return `<p><span class="span">Capital: </span>${capital}</p><p><span class="span">Population:</span> ${population}</p><p><span class="span">Languages:</span> ${countryLanguage}</p>`;
       })
       .join('');
