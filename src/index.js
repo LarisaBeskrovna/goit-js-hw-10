@@ -17,18 +17,16 @@ const refs = {
   function onInput(event) {
     const inputValue = event.target.value.trim();
   
-      fetchCountries(inputValue)
-        .then(countries => {console.log(countries); console.log(countries.status)})
-          .then(countries => {
-          if (countries.status === 404) {
-            throw new Error();
-          } else {
-            renderByConditions(countries);
+    fetchCountries(inputValue)
+      .then(countries =>{
+        renderByConditions(countries);
+      })
+      
+          .catch(error => {
+          if(error.message==="404"){
+            Notiflix.Notify.failure('Oops, there is no country with that name');
           }
-        })
-        .catch(error => {
-          Notiflix.Notify.failure('Oops, there is no country with that name');
-        });
+          });
     
     if (inputValue === '') {
       refs.countryInfo.innerHTML = '';
@@ -42,7 +40,7 @@ const refs = {
       );
       refs.countryInfo.innerHTML = '';
       refs.countryList.innerHTML = '';
-    } else if (countries.length > 2 && countries.length < 10) {
+    } else if (countries.length >= 2 && countries.length <= 10) {
       refs.countryInfo.innerHTML = '';
       renderNameCountries(countries);
     } else if (countries.length === 1) {
