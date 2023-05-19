@@ -16,15 +16,25 @@ const refs = {
 
   function onInput(event) {
     const inputValue = event.target.value.trim();
-  
+     
+    function clearAll() {
+  refs.countryInfo.innerHTML = '';
+  refs.countryList.innerHTML = '';
+}
+
     fetchCountries(inputValue)
       .then(countries =>{
         renderByConditions(countries);
       })
       
           .catch(error => {
+            clearAll();
           if(error.message==="404"){
             Notiflix.Notify.failure('Oops, there is no country with that name');
+            
+          }
+          else{
+           Notiflix.Notify.failure('Error'.message); 
           }
           });
     
@@ -63,7 +73,7 @@ const refs = {
     const markup = countries
       .map(({ capital, population, languages }) => {
         const countryLanguage = Object.values(languages)
-        .join('');
+        .join(', ');
         return `<p><span class="span">Capital: </span>${capital}</p><p><span class="span">Population:</span> ${population}</p><p><span class="span">Languages:</span> ${countryLanguage}</p>`;
       })
       .join('');
